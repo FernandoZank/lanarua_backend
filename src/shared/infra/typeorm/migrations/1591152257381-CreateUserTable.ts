@@ -40,6 +40,31 @@ export default class CreateUserTable1591152257381
             default: `false`,
           },
           {
+            name: 'address',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'address_number',
+            type: 'numeric',
+            isNullable: true,
+          },
+          {
+            name: 'aditional_info',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'city',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'cap',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
             name: 'created_at',
             type: 'timestamp with time zone',
             default: 'now()',

@@ -35,6 +35,21 @@ class User {
   @Column()
   email_verification: boolean;
 
+  @Column()
+  address: string;
+
+  @Column()
+  address_number: number;
+
+  @Column()
+  aditional_info: string;
+
+  @Column()
+  city: string;
+
+  @Column()
+  cap: string;
+
   @CreateDateColumn()
   created_at: Date;
 
