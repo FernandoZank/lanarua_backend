@@ -9,7 +9,7 @@ export default class CreateUserTable1591152257381
         columns: [
           {
             name: 'id',
-            type: 'varchar',
+            type: 'uuid',
             isPrimary: true,
             generationStrategy: 'uuid',
             default: 'uuid_generate_v4()',
@@ -33,6 +33,16 @@ export default class CreateUserTable1591152257381
             name: 'avatar',
             type: 'varchar',
             default: `'default.png'::character varying`,
+          },
+          {
+            name: 'phone',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'mobile',
+            type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'email_verification',

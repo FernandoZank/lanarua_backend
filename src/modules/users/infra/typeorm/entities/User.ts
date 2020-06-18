@@ -33,6 +33,12 @@ class User {
   avatar: string;
 
   @Column()
+  phone: string;
+
+  @Column()
+  mobile: string;
+
+  @Column()
   email_verification: boolean;
 
   @Column()

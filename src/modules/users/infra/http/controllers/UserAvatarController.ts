@@ -22,7 +22,7 @@ export default class UserAvatarController {
       return response.json(user);
     }
 
-    const file = path.join(uploadConfig.directory, request.file.filename);
+    const file = path.join(uploadConfig.uploadsFolder, request.file.filename);
     await fs.promises.unlink(file);
 
     throw new AppError('Mimetype does not match the accepted formats.', 422);

@@ -15,23 +15,14 @@ const upload = multer(uploadConfig);
 const usersController = new UsersController();
 const userAvatarController = new UserAvatarController();
 
-// usersRouter.get('/', ensureAuth, async (request, response) => { O ENSUREAUTH será o middleware que bloqueia ou não o usuário
-
-// usersRouter.patch(
-//   '/avatar',
-//   ensureAuth,
-//   upload.single('avatar'),
-//   async (request, response) => {
-
-//   },
-// );
-
 usersRouter.patch(
   '/avatar',
   ensureAuth,
   upload.single('avatar'),
   userAvatarController.update,
 );
+
+usersRouter.put('/update', ensureAuth, usersController.update);
 
 usersRouter.post('/', usersController.create);
 
