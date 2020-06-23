@@ -1,8 +1,7 @@
 import { inject, injectable } from 'tsyringe';
-import path from 'path';
-import fs from 'fs';
+
 import AppError from '@shared/errors/AppError';
-import uploadConfig from '@config/upload';
+
 import { classToClass } from 'class-transformer';
 
 import IDiskProvider from '@shared/container/providers/StorageProvider/models/IDiskProvider';
@@ -31,17 +30,13 @@ class UpdateUserAvatarService {
       throw new AppError('User does not exists.', 403);
     }
 
-    if (user.avatar && user.avatar !== 'default.png') {
-      await this.storageProvider.deleteFile(user.avatar);
-      // const userAvatar = path.join(uploadConfig.uploadsFolder, user.avatar);
-      // const stillExist = await fs.promises.stat(userAvatar);
+    const imagePath = 'users';
 
-      // if (stillExist) {
-      //   await fs.promises.unlink(userAvatar);
-      // }
+    if (user.avatar && user.avatar !== 'default.png') {
+      await this.storageProvider.deleteFile(user.avatar, imagePath);
     }
 
-    const newAvatar = await this.storageProvider.saveFile(filename);
+    const newAvatar = await this.storageProvider.saveFile(filename, imagePath);
 
     user.avatar = newAvatar;
 

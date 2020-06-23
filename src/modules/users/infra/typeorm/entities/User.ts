@@ -6,6 +6,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+import uploadConfig from '@config/upload';
+
 import { Exclude, Expose } from 'class-transformer';
 
 @Entity('users')
@@ -67,9 +69,18 @@ class User {
 
   @Expose({ name: 'avatar_url' })
   getAvatarURL(): string | null {
-    return `${process.env.APP_API_URL}/files/${
-      this.avatar ? this.avatar : 'default.png'
-    }`;
+    switch (uploadConfig.driver) {
+      case 'disk':
+        return `${process.env.APP_API_URL}/files/${
+          this.avatar ? this.avatar : 'default.png'
+        }`;
+      case 's3':
+        return `https://lanarua.s3-sa-east-1.amazonaws.com/users/${
+          this.avatar ? this.avatar : 'default.png'
+        }`;
+      default:
+        return `https://${uploadConfig.config.aws.bucket}.s3-sa-east-1.amazonaws.com/users/default.png`;
+    }
   }
 }
 
