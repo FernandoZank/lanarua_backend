@@ -3,6 +3,7 @@ import path from 'path';
 import fs from 'fs';
 import AppError from '@shared/errors/AppError';
 import uploadConfig from '@config/upload';
+import { classToClass } from 'class-transformer';
 
 import IDiskProvider from '@shared/container/providers/StorageProvider/models/IDiskProvider';
 import User from '../infra/typeorm/entities/User';
@@ -46,7 +47,7 @@ class UpdateUserAvatarService {
 
     await this.usersRepository.save(user);
 
-    return user;
+    return classToClass(user);
   }
 }
 

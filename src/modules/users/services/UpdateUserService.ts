@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
+import { classToClass } from 'class-transformer';
 
 import User from '@modules/users/infra/typeorm/entities/User';
 
@@ -51,7 +52,7 @@ class UpdateUserService {
       phone: data.phone,
       mobile: data.mobile,
       address: data.address,
-      address_number: Number(data.address_number),
+      address_number: data.address_number,
       aditional_info: data.aditional_info,
       city: data.city,
       cap: data.cap,
@@ -59,7 +60,7 @@ class UpdateUserService {
 
     await this.usersRepository.save(user);
 
-    return user;
+    return classToClass(user);
   }
 }
 

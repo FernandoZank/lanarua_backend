@@ -10,6 +10,7 @@ import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 interface IRequest {
   token: string;
   password: string;
+  password_confirmation: string;
 }
 
 @injectable()

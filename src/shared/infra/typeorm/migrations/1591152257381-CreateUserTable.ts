@@ -32,7 +32,8 @@ export default class CreateUserTable1591152257381
           {
             name: 'avatar',
             type: 'varchar',
-            default: `'default.png'::character varying`,
+            isNullable: true,
+            // default: `'default.png'::character varying`,
           },
           {
             name: 'phone',
@@ -56,8 +57,9 @@ export default class CreateUserTable1591152257381
           },
           {
             name: 'address_number',
-            type: 'numeric',
+            type: 'varchar',
             isNullable: true,
+            default: null,
           },
           {
             name: 'aditional_info',

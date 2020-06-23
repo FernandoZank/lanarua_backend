@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import path from 'path';
+import { classToClass } from 'class-transformer';
 
 import AppError from '@shared/errors/AppError';
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
@@ -79,15 +80,13 @@ class CreateUserService {
         file: validationEmailTemplate,
         variables: {
           name: user.name,
-          validate: `http://192.168.0.10:3000/validate?token=${token}`,
-          notme: `http://192.168.0.10:3000/deny?token=${token}`,
+          validate: `${process.env.APP_WEB_URL}/validate?token=${token}`,
+          notme: `${process.env.APP_WEB_URL}/deny?token=${token}`,
         },
       },
     });
 
-    delete user.password;
-
-    return user;
+    return classToClass(user);
   }
 }
 

@@ -20,13 +20,13 @@ class EmailCancelService {
     const userToken = await this.userTokensRepository.findByToken(token);
 
     if (!userToken) {
-      throw new AppError('Token does not exists');
+      throw new AppError('Token does not exists', 404);
     }
 
     const user = await this.usersRepository.findByID(userToken.user_id);
 
     if (!user) {
-      throw new AppError('User does not exists');
+      throw new AppError('User does not exists', 404);
     }
 
     const tokenCreatedAt = userToken.created_at;

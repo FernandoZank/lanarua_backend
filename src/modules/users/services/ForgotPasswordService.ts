@@ -3,6 +3,7 @@ import path from 'path';
 import AppError from '@shared/errors/AppError';
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
 
+import mailConfig from '@config/mail';
 import IUsersRepository from '../repositories/IUsersRepository';
 import IUserTokensRepository from '../repositories/IUserTokensRepository';
 
@@ -49,7 +50,7 @@ class ForgotPasswordService {
         file: forgotPassMailTemplate,
         variables: {
           name: user.name,
-          link: `http://192.168.0.10:3000/reset?token=${token}`,
+          link: `${process.env.APP_WEB_URL}/reset?token=${token}`,
         },
       },
     });

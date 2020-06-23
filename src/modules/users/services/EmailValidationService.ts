@@ -3,9 +3,17 @@ import AppError from '@shared/errors/AppError';
 
 import { isAfter, addDays } from 'date-fns';
 
+import { sign } from 'jsonwebtoken';
+import authConfig from '@config/auth';
+import { classToClass } from 'class-transformer';
 import IUsersRepository from '../repositories/IUsersRepository';
 import IUserTokensRepository from '../repositories/IUserTokensRepository';
 import User from '../infra/typeorm/entities/User';
+
+interface IResponse {
+  user: User;
+  token: string;
+}
 
 @injectable()
 class EmailValidationService {
@@ -17,17 +25,17 @@ class EmailValidationService {
     private userTokensRepository: IUserTokensRepository,
   ) {}
 
-  public async execute(token: string): Promise<User> {
+  public async execute(token: string): Promise<IResponse> {
     const userToken = await this.userTokensRepository.findByToken(token);
 
     if (!userToken) {
-      throw new AppError('Token does not exists');
+      throw new AppError('Token does not exists', 404);
     }
 
     const user = await this.usersRepository.findByID(userToken.user_id);
 
     if (!user) {
-      throw new AppError('User does not exists');
+      throw new AppError('User does not exists', 404);
     }
 
     const tokenCreatedAt = userToken.created_at;
@@ -45,7 +53,16 @@ class EmailValidationService {
 
     await this.userTokensRepository.delete(userToken.id);
 
-    return user;
+    const { secret, expiresIn } = authConfig.jwt;
+    const newToken = sign({}, secret, {
+      subject: user.id,
+      expiresIn,
+    });
+
+    return {
+      user: classToClass(user),
+      token: newToken,
+    };
   }
 }
 
