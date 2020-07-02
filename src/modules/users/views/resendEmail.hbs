@@ -45,24 +45,7 @@
     border-color: #00b300;
   }
 
-  .denyLink{
-    width: 100%;
-    text-align: center;
-    text-decoration: none;
-    background: #8A0002;
-    border-radius: 5px;
-    border: 1px solid #8A0002;
-    color: #fff;
-    padding: 10px;
 
-    transition: all 0.5s;
-  }
-
-  .denyLink:hover{
-    background: #c53030;
-    border-color: #c53030;
-    color: #fff;
-  }
 </style>
 
 <div class="message-wrapper">
@@ -72,14 +55,9 @@
     <br>
     <p>Per motivi di sicurezza, ti chiediamo di confermare la tua e-mail in modo da poter utilizzare tutte le funzionalità del nostro website.
     </p>
-    <p style="text-align: center;">Per questo, fai clic sul link in basso:<br><br>
+    <p style="text-align: center;">Fai clic sul pulsante in basso per convalidare il tuo account:<br><br>
       <span style="text-align: center;">
-        <a class="buttonLink" href="{{validate}}">Convalida il mio e-mail</a>
-      </span>
-    </p>
-    <p style="text-align: center;">Ma, se non sei tu, fai clic su questo altro link:<br><br>
-      <span style="text-align: center;">
-        <a class="denyLink" href="{{notme}}">Non mi sono registrato!</a>
+        <a class="buttonLink" href="{{link}}">Convalida il mio e-mail</a>
       </span>
     </p>
     <p style="text-align: center;">

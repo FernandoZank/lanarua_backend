@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import CreateUserService from '@modules/users/services/CreateUserService';
 import UpdateUserService from '@modules/users/services/UpdateUserService';
+import ListUsersService from '@modules/users/services/ListUsersService';
+import ShowUserService from '@modules/users/services/ShowUserService';
 
 export default class UsersController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -51,6 +53,26 @@ export default class UsersController {
       city,
       cap,
     });
+    return response.json(user);
+  }
+
+  public async index(request: Request, response: Response): Promise<Response> {
+    const { admin } = request.user;
+    const getUsers = container.resolve(ListUsersService);
+
+    const users = await getUsers.execute(admin);
+
+    return response.json(users);
+  }
+
+  public async show(request: Request, response: Response): Promise<Response> {
+    const { admin } = request.user;
+    const { user_id } = request.params;
+
+    const getUser = container.resolve(ShowUserService);
+
+    const user = await getUser.execute(admin, user_id);
+
     return response.json(user);
   }
 }

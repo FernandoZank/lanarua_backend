@@ -4,6 +4,7 @@ import { classToClass } from 'class-transformer';
 
 import AppError from '@shared/errors/AppError';
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 import User from '../infra/typeorm/entities/User';
 import IUserTokensRepository from '../repositories/IUserTokensRepository';
 
@@ -32,6 +33,9 @@ class CreateUserService {
 
     @inject('MailProvider')
     private mailProvider: IMailProvider,
+
+    @inject('CacheProvider')
+    private cacheProvider: ICacheProvider,
   ) {}
 
   public async execute({
@@ -85,6 +89,8 @@ class CreateUserService {
         },
       },
     });
+
+    await this.cacheProvider.invalidate('users-list');
 
     return classToClass(user);
   }

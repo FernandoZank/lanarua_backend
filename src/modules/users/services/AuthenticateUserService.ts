@@ -16,6 +16,7 @@ interface IRequest {
 interface IResponse {
   user: User;
   token: string;
+  admin: boolean;
 }
 
 @injectable()
@@ -45,12 +46,13 @@ class AuthenticateUserService {
     }
 
     const { secret, expiresIn } = authConfig.jwt;
-    const token = sign({}, secret, {
+    const token = sign({ admin: user.user_type === 'A' }, secret, {
       subject: user.id,
       expiresIn,
     });
 
     return {
+      admin: user.user_type === 'A',
       user: classToClass(user),
       token,
     };

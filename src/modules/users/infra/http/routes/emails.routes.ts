@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import { celebrate, Segments, Joi } from 'celebrate';
+import ensureAuth from '@shared/infra/http/middlewares/ensureAuth';
 import EmailValidateController from '../controllers/EmailValidateController';
 
 const emailRouter = Router();
@@ -16,6 +17,7 @@ emailRouter.patch(
   }),
   emailValidateController.update,
 );
+
 emailRouter.patch(
   '/deny',
   celebrate({
@@ -25,5 +27,7 @@ emailRouter.patch(
   }),
   emailValidateController.delete,
 );
+
+emailRouter.post('/resend', ensureAuth, emailValidateController.create);
 
 export default emailRouter;

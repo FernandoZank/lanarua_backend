@@ -9,12 +9,17 @@ import UsersController from '@modules/users/infra/http/controllers/UsersControll
 
 import ensureAuth from '@shared/infra/http/middlewares/ensureAuth';
 import UserAvatarController from '../controllers/UserAvatarController';
+import UserTypeController from '../controllers/UserTypeController';
 
 const usersRouter = Router();
 
 const upload = multer(uploadConfig.multer);
 const usersController = new UsersController();
 const userAvatarController = new UserAvatarController();
+const userTypeController = new UserTypeController();
+
+usersRouter.get('/', ensureAuth, usersController.index);
+usersRouter.get('/info/:user_id', ensureAuth, usersController.show);
 
 usersRouter.patch(
   '/avatar',
@@ -22,6 +27,8 @@ usersRouter.patch(
   upload.single('avatar'),
   userAvatarController.update,
 );
+
+usersRouter.patch('/type', ensureAuth, userTypeController.update);
 
 usersRouter.put(
   '/update',

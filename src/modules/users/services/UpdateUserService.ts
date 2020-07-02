@@ -4,6 +4,7 @@ import { classToClass } from 'class-transformer';
 
 import User from '@modules/users/infra/typeorm/entities/User';
 
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 import IUsersRepository from '../repositories/IUsersRepository';
 
 interface IRequest {
@@ -26,6 +27,8 @@ class UpdateUserService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
+    @inject('CacheProvider')
+    private cacheProvider: ICacheProvider,
   ) {}
 
   public async execute(data: IRequest): Promise<User> {
@@ -59,6 +62,7 @@ class UpdateUserService {
     });
 
     await this.usersRepository.save(user);
+    await this.cacheProvider.invalidate('users-list');
 
     return classToClass(user);
   }
